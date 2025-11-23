@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://dwjdbmwuph4yh"]
+
+[ext_resource type="Texture2D" uid="uid://73tyqn1h6t8b" path="res://assets/station.png" id="1_ad2ja"]
+[ext_resource type="Script" uid="uid://b3uhndtxuci4c" path="res://Station.cs" id="1_na7ix"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_na7ix"]
+radius = 32.0
+
+[node name="Station" type="Node2D"]
+script = ExtResource("1_na7ix")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_na7ix")
+
+[node name="Texture" type="Sprite2D" parent="."]
+texture = ExtResource("1_ad2ja")
+
+[node name="Label" type="Label" parent="."]
+offset_left = 40.0
+offset_top = -12.0
+offset_right = 80.0
+offset_bottom = 11.0
+text = "Station Name"
+vertical_alignment = 1
