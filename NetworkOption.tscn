@@ -1,0 +1,35 @@
+[gd_scene load_steps=3 format=3 uid="uid://bev5fqgnn7cpd"]
+
+[ext_resource type="Script" uid="uid://t6b5ida2kcno" path="res://NetworkOption.cs" id="1_5qu6j"]
+[ext_resource type="Texture2D" uid="uid://pq872jrnnpl8" path="res://assets/NetworkColor.png" id="1_b1a8w"]
+
+[node name="NetworkOption" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5qu6j")
+
+[node name="ColorIndicator" type="Sprite2D" parent="."]
+position = Vector2(35, 35)
+texture = ExtResource("1_b1a8w")
+
+[node name="Background" type="ColorRect" parent="."]
+z_index = -1
+layout_mode = 0
+offset_right = 249.0
+offset_bottom = 69.0
+color = Color(0, 0, 0, 0.34902)
+
+[node name="NameField" type="LineEdit" parent="."]
+layout_mode = 0
+offset_left = 72.0
+offset_top = 7.0
+offset_right = 246.0
+offset_bottom = 63.0
+placeholder_text = "Network Name"
+expand_to_text_length = true
+
+[connection signal="text_submitted" from="NameField" to="." method="_on_line_edit_text_submitted"]

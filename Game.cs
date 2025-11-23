@@ -15,11 +15,16 @@ public partial class Game : Node2D
   private Station connectionEnd;
   private bool connectionMode = false;
 
+  private ConnectionManager connectionManager;
+
+  private Random rng;
+
   public override void _Ready()
   {
     base._Ready();
     StationRegistry = new Dictionary<int, Station>();
-
+    connectionManager = GetNode<ConnectionManager>("./ConnectionManager");
+    rng = new Random();
   }
   public override void _Process(double delta)
   {
@@ -42,20 +47,21 @@ public partial class Game : Node2D
   }
 
 
-  private void SpawnNewStation()
+  private void SpawnNewStation(Vector2 position)
   {
     Vector2 viewportSize = GetViewport().GetVisibleRect().Size;
     Station station = StationScene.Instantiate<Station>();
     station.Position = new Vector2(viewportSize.X / 2, viewportSize.Y / 2);
     AddChild(station);
     StationRegistry.Add(station.StationID, station);
+    station.Position = position;
   }
 
   private void HandleInput(Vector2 mousePosition)
   {
-    if (Input.IsActionJustPressed("new_node"))
+    if (Input.IsActionJustPressed("new_station"))
     {
-      SpawnNewStation();
+      SpawnNewStation(mousePosition);
     }
 
     if (Input.IsActionJustPressed("left_click"))
@@ -92,7 +98,7 @@ public partial class Game : Node2D
       }
     }
 
-    if (Input.IsActionJustReleased("delete_node"))
+    if (Input.IsActionJustReleased("delete_station"))
     {
       foreach (Station station in StationRegistry.Values)
       {
@@ -117,6 +123,18 @@ public partial class Game : Node2D
           break;
         }
       }
+    }
+
+    if (Input.IsActionJustPressed("new_network"))
+    {
+      byte[] bytes = new byte[4];
+      rng.NextBytes(bytes);
+      bytes[3] = 0xFF;
+      uint randomUInt = BitConverter.ToUInt32(bytes, 0);
+      Color color = new Color(randomUInt);
+      Network network = new Network(color);
+
+      connectionManager.AddNetwork(network);
     }
   }
 
